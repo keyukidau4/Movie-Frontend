@@ -5,7 +5,7 @@ import axios from "axios";
 const instance = axios.create({
   // baseURL: 'https://api.themoviedb.org/3'
   // baseURL: "http://localhost:8080/api/",
-  baseURL: "https://movie-backend-three.vercel.app/",
+  baseURL: "https://movie-backend-three.vercel.app/api/",
 });
 
 // instance.get('/foo-bar');
