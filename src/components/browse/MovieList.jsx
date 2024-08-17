@@ -3,19 +3,22 @@ import axios from "../../utils/axios";
 import movieTrailer from "movie-trailer";
 import MovieDetail from "../../components/browse/MovieDetail";
 import "./MovieList.css";
+import LoadingComponent from "../loading";
 
 const base_url = "https://image.tmdb.org/t/p/original";
 const movies_limit = 10;
-const spanStyle = {
-  backgroundColor: "blue",
-  padding: "5px",
-  marginInline: "5px",
-};
+// const spanStyle = {
+//   backgroundColor: "blue",
+//   padding: "5px",
+//   marginInline: "5px",
+// };
 
 function MovieList({ title, fetchUrl, isLargeRow }) {
   const [movies, setMovies] = useState([]);
   const [trailerUrl, setTrailerUrl] = useState("");
   const [selectedMovie, setSelectedMovie] = useState(null);
+
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     async function fetchData() {
@@ -29,6 +32,8 @@ function MovieList({ title, fetchUrl, isLargeRow }) {
   }, [fetchUrl]);
 
   const handleClick = (movie) => {
+    setLoading(true);
+
     if (selectedMovie && selectedMovie.id === movie.id) {
       setSelectedMovie(null);
       setTrailerUrl("");
@@ -44,6 +49,9 @@ function MovieList({ title, fetchUrl, isLargeRow }) {
             window.alert("The Trailer Of Video Not Be Found!");
             setSelectedMovie(null);
           }
+        })
+        .finally(() => {
+          setLoading(false);
         });
     }
   };
@@ -69,17 +77,9 @@ function MovieList({ title, fetchUrl, isLargeRow }) {
           );
         })}
       </div>
-      <div
-        style={{
-          marginTop: "10px",
-        }}
-      >
-        <span style={spanStyle}>1</span>
-        <span style={spanStyle}>2</span>
-        <span style={spanStyle}>3</span>
-      </div>
       <div style={{ padding: "40px" }}>
-        {selectedMovie && (
+        {loading && <LoadingComponent />}
+        {selectedMovie && !loading && (
           <MovieDetail movieData={selectedMovie} movieTrailer={trailerUrl} />
         )}
       </div>

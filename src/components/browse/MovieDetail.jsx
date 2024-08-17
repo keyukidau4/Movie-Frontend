@@ -29,9 +29,8 @@ const MovieDetail = ({ movieTrailer, movieData }) => {
         <YouTube
           videoId={movieTrailer}
           onReady={(event) => {
-            console.log(event);
-
-            console.log("Ready!");
+            // console.log(event);
+            // console.log("Ready!");
           }}
           opts={opts}
         />
